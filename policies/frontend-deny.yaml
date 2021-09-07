@@ -1,0 +1,111 @@
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: default.frontend-deny
+  namespace: default
+spec:
+  tier: default
+  order: 2100
+  selector: app == "frontend"
+  serviceAccountSelector: ''
+  ingress:
+    - action: Deny
+      protocol: TCP
+      source: {}
+      destination:
+        ports:
+          - '8080'
+    - action: Deny
+      protocol: TCP
+      source:
+        selector: app == "loadgenerator"
+      destination:
+        ports:
+          - '8080'
+  egress:
+    - action: Allow
+      protocol: TCP
+      source: {}
+      destination:
+        selector: >-
+          (app == "checkoutservice"&&projectcalico.org/namespace ==
+          "default"&&projectcalico.org/orchestrator ==
+          "k8s"&&projectcalico.org/serviceaccount == "default")
+        ports:
+          - '5050'
+    - action: Allow
+      protocol: TCP
+      source: {}
+      destination:
+        selector: >-
+          (app == "currencyservice"&&projectcalico.org/namespace ==
+          "default"&&projectcalico.org/orchestrator ==
+          "k8s"&&projectcalico.org/serviceaccount == "default")
+        ports:
+          - '7000'
+    - action: Allow
+      protocol: TCP
+      source: {}
+      destination:
+        selector: >-
+          (projectcalico.org/serviceaccount == "default"&&app ==
+          "shippingservice"&&projectcalico.org/namespace ==
+          "default"&&projectcalico.org/orchestrator == "k8s")
+        ports:
+          - '50051'
+    - action: Allow
+      protocol: TCP
+      source: {}
+      destination:
+        ports:
+          - '7070'
+          - '9555'
+          - '8080'
+          - '80'
+          - '7000'
+    - action: Allow
+      protocol: TCP
+      source: {}
+      destination:
+        selector: >-
+          (projectcalico.org/namespace ==
+          "default"&&projectcalico.org/orchestrator ==
+          "k8s"&&projectcalico.org/serviceaccount == "default"&&app ==
+          "cartservice")
+        ports:
+          - '7070'
+    - action: Allow
+      protocol: TCP
+      source: {}
+      destination:
+        selector: >-
+          (projectcalico.org/namespace ==
+          "default"&&projectcalico.org/orchestrator ==
+          "k8s"&&projectcalico.org/serviceaccount == "default"&&app ==
+          "productcatalogservice")
+        ports:
+          - '3550'
+    - action: Allow
+      protocol: TCP
+      source: {}
+      destination:
+        selector: >-
+          (projectcalico.org/namespace ==
+          "default"&&projectcalico.org/orchestrator ==
+          "k8s"&&projectcalico.org/serviceaccount == "default"&&app ==
+          "recommendationservice")
+        ports:
+          - '8080'
+    - action: Allow
+      protocol: TCP
+      source: {}
+      destination:
+        selector: >-
+          (app == "adservice"&&projectcalico.org/namespace ==
+          "default"&&projectcalico.org/orchestrator ==
+          "k8s"&&projectcalico.org/serviceaccount == "default")
+        ports:
+          - '9555'
+  types:
+    - Ingress
+    - Egress
