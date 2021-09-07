@@ -217,3 +217,18 @@ https://docs.tigera.io/compliance/compliance-reports/compliance-managed-cloud#en
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/policy-audit.yaml  
 ```
+
+## Scaling-down the cluster
+  
+Scale deployment down to '0' replicas to avoid scaling conflicts:
+```
+kubectl scale deployments/coredns --replicas=0 -n kube-system
+```
+Find a Node Group associated with the cluster - tigera-workshop
+```
+eksctl get nodegroup --cluster aws-howdy-partner
+```
+Scale the Node Group ID to 0 nodes (which should stop K8 activity)
+```
+eksctl scale nodegroup --cluster aws-howdy-partner --name ng-8d471f34 --nodes 0
+```
