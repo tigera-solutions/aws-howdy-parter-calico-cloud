@@ -143,47 +143,7 @@ Create the Tigera-Internal namespace and alerts for the honeypod services:
 kubectl apply -f https://docs.tigera.io/manifests/threatdef/honeypod/common.yaml
 ```
 
-Get the Tigera Pull Secret from the Tigera Guardian namespace:
-```
-kubectl get secrets tigera-pull-secret -n tigera-guardian -o json
-```
-
-We need to get the Tigera pull secret output yaml, and put it into a 'pull-secret.yaml' file:
-```
-kubectl get secret tigera-pull-secret -n tigera-guardian -o json > pull-secret.json
-```
-
-Edit the below pull secret - removing all metadata from creationTimestamp down to the name of the tigera-pull-scret. Use Capital 'D' and lower-case 'd' while in insert mode of VI to remove this content
-
-```
-vi pull-secret.json
-```
-
-Apply changes to the below pull secret
-```
-kubectl apply -f pull-secret.json
-```
-
-Add tigera-pull-secret into the namespace tigera-internal
-```
-kubectl create secret generic tigera-pull-secret --from-file=.dockerconfigjson=pull-secret.json --type=kubernetes.io/dockerconfigjson -n tigera-internal
-```
-
-# IP Enumeration
-Expose a empty pod that can only be reached via PodIP, we can see when the attacker is probing the pod network:
-```
-kubectl apply -f https://docs.tigera.io/manifests/threatdef/honeypod/ip-enum.yaml 
-```
-
-# Exposed service (nginx)
-Expose a nginx service that serves a generic page. The pod can be discovered via ClusterIP or DNS lookup. 
-An unreachable service tigera-dashboard-internal-service is created to entice the attacker to find and reach, tigera-dashboard-internal-debug:
-```
-kubectl apply -f https://docs.tigera.io/manifests/threatdef/honeypod/expose-svc.yaml 
-```
-
-# Vulnerable Service (MySQL)
-Expose a SQL service that contains an empty database with easy access. 
+Expose a vulnerable SQL service that contains an empty database with easy access.<br/>
 The pod can be discovered via ClusterIP or DNS lookup:
 ```
 kubectl apply -f https://docs.tigera.io/manifests/threatdef/honeypod/vuln-svc.yaml 
