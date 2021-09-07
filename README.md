@@ -45,13 +45,6 @@ Confirm regions are configured correctly:
 kubectl get node -o=jsonpath='{range .items[*]}{.metadata.name}{"\tProviderId: "}{.spec.providerID}{"\n"}{end}'
 ```  
 ## Configure Calico Cloud:
-If your cluster has an existing version of Calico installed, verify that Calico components are not managed by any kind of Kubernetes reconciler / Addon-manager - https://docs.calicocloud.io/install/system-requirements#general
-```
-kubectl get addonmanager.kubernetes.io/mode -n tigera-operator tigera-operator -o yaml | grep ' addonmanager.kubernetes.io/mode:'
-```
-```
-kubectl get addonmanager.kubernetes.io/mode -n kube-system calico-node -o yaml | grep ' addonmanager.kubernetes.io/mode:'
-```
 Get your Calico Cloud installation script from the Web UI - https://qq9psbdn-management.calicocloud.io/clusters/grid
 ```
 curl https://installer.calicocloud.io/*****.*****-management_install.sh | bash
@@ -66,20 +59,20 @@ kubectl apply -f https://installer.calicocloud.io/storefront-demo.yaml
 ```
 Create the Product Tier:
 ```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/Tiers/product.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/product.yaml
 ```  
 ## Zone-Based Architecture  
 Create the DMZ Policy:
 ```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/ZBA/dmz.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/dmz.yaml
 ```
 Create the Trusted Policy:
 ```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/ZBA/trusted.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/trusted.yaml
 ``` 
 Create the Restricted Policy:
 ```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/ZBA/restricted.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/restricted.yaml
 ``` 
 ## Increase the Sync Rate: 
 ``` 
