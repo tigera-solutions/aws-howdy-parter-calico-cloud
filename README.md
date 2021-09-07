@@ -230,5 +230,5 @@ eksctl get nodegroup --cluster aws-howdy-partner
 ```
 Scale the Node Group ID to 0 nodes (which should stop K8 activity)
 ```
-eksctl scale nodegroup --cluster aws-howdy-partner --name ng-8d471f34 --nodes 0
+eksctl scale nodegroup --cluster aws-howdy-partner --name ng-8087b677 --nodes 0
 ```
