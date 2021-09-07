@@ -1,5 +1,6 @@
-# AWS Howdy Parter Calico Cloud
-AWS Howdy Parter | Calico Cloud
+# AWS Howdy Partner | Calico Cloud
+Howdy Partner is a weekly Twitch series highlighting AWS Partner Network (APN) Technology Partners that have built innovative solutions validated by AWS Solutions Architects.<br/>
+https://www.imdb.com/title/tt13135054/
 
 ## Download and Install the EKSCTL utility
 Download and extract the latest release of eksctl with the following command
