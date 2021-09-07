@@ -18,7 +18,7 @@ First, create an Amazon EKS cluster without any nodes
 ```
 eksctl create cluster  --name tigera-workshop  --with-oidc  --without-nodegroup
 ```
-## Make the cluster EU compatible
+## Make a cluster EU-Compatible
 If necessary, replace region-code with Region the cluster is in:
 ```
 sed -i.bak -e 's/us-west-2/eu-west-1/' aws-k8s-cni.yaml
@@ -175,21 +175,3 @@ kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-w
 ```  
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/40-compliance-reports/cluster-reports.yaml
 ```  
-
-## Install Wireguard 
-To install WireGuard on the default Amazon Machine Image (AMI):
-```
-sudo yum install kernel-devel-`uname -r` -y
-sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
-sudo curl -o /etc/yum.repos.d/jdoss-wireguard-epel-7.repo https://copr.fedorainfracloud.org/coprs/jdoss/wireguard/repo/epel-7/jdoss-wireguard-epel-7.repo
-sudo yum install wireguard-dkms wireguard-tools -y
-```
-
-WireGuard is included in Linux 5.6+ kernels, and has been backported to earlier Linux kernels in some Linux distributions.  
-  
-## Enable WireGuard for a cluster 
-Enable WireGuard encryption across all the nodes using the following command:
-```
-kubectl patch felixconfiguration default --type='merge' -p '{"spec":{"wireguardEnabled":true}}'
-```
-
