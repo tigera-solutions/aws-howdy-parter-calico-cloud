@@ -79,7 +79,11 @@ kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-pa
 Create the 'Security' Tier:
 ``` 
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/security.yaml
-```   
+```
+Determine a DNS provider of your cluster (mine is 'coredns' by default)
+```
+kubectl get deployments -l k8s-app=kube-dns -n kube-system
+```    
 Allow traffic for Kube-DNS / CoreDNS:
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/allow-kubedns.yaml
@@ -112,10 +116,6 @@ Applies to anything that IS NOT listed with the namespace selector = 'acme'
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/threatfeed/block-feodo.yaml
 ```
-Determine a DNS provider of your cluster (mine is 'coredns')
-```
-kubectl get deployments -l k8s-app=kube-dns -n kube-system
-```  
 Create a Default-Deny in the 'Default' namespace:
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/default-deny.yaml
