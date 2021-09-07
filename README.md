@@ -16,7 +16,7 @@ eksctl version
 ``` 
 First, create an Amazon EKS cluster without any nodes
 ```
-eksctl create cluster  --name tigera-workshop  --with-oidc  --without-nodegroup
+eksctl create cluster  --name aws-howdy-partner  --with-oidc  --without-nodegroup
 ```
 ## Make a cluster EU-Compatible
 If necessary, replace region-code with Region the cluster is in:
@@ -42,7 +42,7 @@ kubectl get pod -n kube-system -o wide
 ```
 Finally, add nodes to your EKS cluster
 ```
-eksctl create nodegroup --cluster tigera-workshop --node-type t3.xlarge --nodes=3 --nodes-min=0 --nodes-max=3 --max-pods-per-node 58
+eksctl create nodegroup --cluster aws-howdy-partner --node-type t3.xlarge --nodes=3 --nodes-min=0 --nodes-max=3 --max-pods-per-node 58
 ```
 ## Configure Calico Cloud:
 If your cluster has an existing version of Calico installed, verify that Calico components are not managed by any kind of Kubernetes reconciler / Addon-manager - https://docs.calicocloud.io/install/system-requirements#general
@@ -58,7 +58,7 @@ curl https://installer.calicocloud.io/*****.*****-management_install.sh | bash
 ```
 Check for cluster security group of cluster:
 ```
-aws eks describe-cluster --name tigera-workshop --query cluster.resourcesVpcConfig.clusterSecurityGroupId
+aws eks describe-cluster --name aws-howdy-partner --query cluster.resourcesVpcConfig.clusterSecurityGroupId
 ```
 If your cluster does not have applications, you can use the following storefront application:
 ```
