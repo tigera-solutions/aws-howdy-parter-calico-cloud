@@ -32,10 +32,6 @@ Address for Region that your cluster is in:
 kubectl apply -f aws-k8s-cni.yaml
 ```
 ## Create a node group for the cluster
-Confirm regions are configured correctly:
-```
-kubectl get node -o=jsonpath='{range .items[*]}{.metadata.name}{"\tProviderId: "}{.spec.providerID}{"\n"}{end}'
-```
 Verify VPC Networking and CNI plugin is used. Confirm the aws-node pod exists on each node
 ```
 kubectl get pod -n kube-system -o wide
@@ -44,6 +40,10 @@ Finally, add nodes to your EKS cluster
 ```
 eksctl create nodegroup --cluster aws-howdy-partner --node-type t3.xlarge --nodes=3 --nodes-min=0 --nodes-max=3 --max-pods-per-node 58
 ```
+Confirm regions are configured correctly:
+```
+kubectl get node -o=jsonpath='{range .items[*]}{.metadata.name}{"\tProviderId: "}{.spec.providerID}{"\n"}{end}'
+```  
 ## Configure Calico Cloud:
 If your cluster has an existing version of Calico installed, verify that Calico components are not managed by any kind of Kubernetes reconciler / Addon-manager - https://docs.calicocloud.io/install/system-requirements#general
 ```
