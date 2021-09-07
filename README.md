@@ -91,7 +91,7 @@ kubectl delete -f https://installer.calicocloud.io/rogue-demo.yaml -n storefront
 ## Introduce Threat Feeds:
 Create the FeodoTracker globalThreatFeed: 
 ``` 
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/ThreatFeeds/feodo-tracker.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/threatfeed/feodo-tracker.yaml
 ```
 Verify the GlobalNetworkSet is configured correctly:
 ``` 
@@ -99,11 +99,11 @@ kubectl get globalnetworksets threatfeed.feodo-tracker -o yaml
 ``` 
 Create the 'Security' Tier:
 ``` 
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/Tiers/security.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/security.yaml
 ```  
 Applies to anything that IS NOT listed with the namespace selector = 'acme' 
 ```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/SecurityPolicies/block-feodo.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/threatfeed/block-feodo.yaml
 ```
 Determine a DNS provider of your cluster (mine is 'coredns')
 ```
@@ -111,16 +111,16 @@ kubectl get deployments -l k8s-app=kube-dns -n kube-system
 ```  
 Allow traffic for Kube-DNS / CoreDNS:
 ```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/calico-enterprise-eks-workshop/main/policies/allow-kubedns.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/allow-kubedns.yaml
 ```
 Create a Default-Deny in the 'Default' namespace:
 ```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/calico-enterprise-eks-workshop/main/policies/default-deny.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/default-deny.yaml
 ```
 ## Anonymization Attacks:
 Quarantine the Rogue Application: 
 ```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/SecurityPolicies/quarantine.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/quarantine.yaml
 ```  
 Create the threat feed for EJR-VPN: 
 ``` 
