@@ -73,7 +73,18 @@ kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-pa
 Create the Restricted Policy:
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/restricted.yaml
+```
+
+## Allow Kube-DNS Traffic: 
+Create the 'Security' Tier:
 ``` 
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/security.yaml
+```   
+Allow traffic for Kube-DNS / CoreDNS:
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/allow-kubedns.yaml
+```
+  
 ## Increase the Sync Rate: 
 ``` 
 kubectl patch felixconfiguration.p default -p '{"spec":{"flowLogsFlushInterval":"10s"}}'
@@ -97,10 +108,6 @@ Verify the GlobalNetworkSet is configured correctly:
 ``` 
 kubectl get globalnetworksets threatfeed.feodo-tracker -o yaml
 ``` 
-Create the 'Security' Tier:
-``` 
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/security.yaml
-```  
 Applies to anything that IS NOT listed with the namespace selector = 'acme' 
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/threatfeed/block-feodo.yaml
@@ -109,10 +116,6 @@ Determine a DNS provider of your cluster (mine is 'coredns')
 ```
 kubectl get deployments -l k8s-app=kube-dns -n kube-system
 ```  
-Allow traffic for Kube-DNS / CoreDNS:
-```
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/allow-kubedns.yaml
-```
 Create a Default-Deny in the 'Default' namespace:
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/default-deny.yaml
@@ -141,15 +144,15 @@ kubectl apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/microserv
 ```  
 We also offer a test application for Kubernetes-specific network policies:
 ```
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/dev/app.manifests.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/workloads/test.yaml
 ``` 
 Deploy policies for the Boutique application:
 ```
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/boutiqueshop/policies.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/boutique-policies.yaml
 ``` 
 Deploy policies for the K8 test application:
 ```
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/dev/policies.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/test-app.yaml
 ```
 ## Alerting
 ```
