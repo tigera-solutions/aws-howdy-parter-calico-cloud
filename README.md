@@ -99,9 +99,9 @@ Introduce the Rogue Application:
 ```
 kubectl apply -f https://installer.calicocloud.io/rogue-demo.yaml -n storefront
 ``` 
-Delete the Rogue Application:
+Quarantine the Rogue Application: 
 ```
-kubectl delete -f https://installer.calicocloud.io/rogue-demo.yaml -n storefront
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/quarantine.yaml
 ```
 ## Introduce Threat Feeds:
 Create the FeodoTracker globalThreatFeed: 
@@ -120,11 +120,7 @@ Create a Default-Deny in the 'Default' namespace:
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/default-deny.yaml
 ```
-## Anonymization Attacks:
-Quarantine the Rogue Application: 
-```
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/quarantine.yaml
-```  
+## Anonymization Attacks:  
 Create the threat feed for EJR-VPN: 
 ``` 
 kubectl apply -f https://docs.tigera.io/manifests/threatdef/ejr-vpn.yaml
@@ -156,18 +152,18 @@ kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-pa
 ```
 ## Alerting
 ```
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/50-alerts/globalnetworkset.changed.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/alerting/networksets.yaml
 ```
 ```
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/50-alerts/unsanctioned.dns.access.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/alerting/dns-access.yaml
 ```
 ```
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/50-alerts/unsanctioned.lateral.access.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/alerting/lateral-access.yaml
 ``` 
 ## Compliance Reporting
 ```   
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/40-compliance-reports/daily-cis-results.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/cis-report.yaml
 ```
 ```  
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/40-compliance-reports/cluster-reports.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/inventory.yaml
 ```  
