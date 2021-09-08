@@ -230,9 +230,17 @@ Add the label kubernetes-host to all nodes and their host endpoints:
 ```
 kubectl label nodes --all kubernetes-host=  
 ```
-
-  
-
+This tutorial assumes that you already have a tier called 'aws-nodes' in Calico Cloud:  
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/node-tier.yaml
+```
+Once the tier is created, build a policy for the ETCD nodes:  
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/etcd.yaml
+```
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/controlplane.yaml
+```  
 ## Scaling-down the cluster
   
 Scale deployment down to '0' replicas to avoid scaling conflicts:
