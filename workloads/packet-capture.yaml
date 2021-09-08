@@ -5,7 +5,3 @@ metadata:
   namespace: storefront
 spec:
   selector: app == "frontend"
-  filters:
-    - protocol: TCP
-      ports:
-        - 80
