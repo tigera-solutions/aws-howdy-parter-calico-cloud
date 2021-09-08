@@ -253,6 +253,15 @@ kubectl label node ip-10-0-1-165 environment=master
 kubectl label node ip-10-0-1-167 environment=worker
 kubectl label node ip-10-0-1-227 environment=etcd
 ```
+
+## Dynamic Packet Capture:
+
+A Packet Capture resource (PacketCapture) represents captured live traffic for debugging microservices and application interaction inside a Kubernetes cluster.
+
+```
+kubectl apply -f
+```
+
 ## Scaling-down the cluster
   
 Scale deployment down to '0' replicas to avoid scaling conflicts:
