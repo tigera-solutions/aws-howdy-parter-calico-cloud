@@ -256,12 +256,37 @@ kubectl label node ip-10-0-1-227 environment=etcd
 
 ## Dynamic Packet Capture:
 
-A Packet Capture resource (PacketCapture) represents captured live traffic for debugging microservices and application interaction inside a Kubernetes cluster.
+Check that there are no packet captures in this directory  
+```
+ls *pcap
+```
+A Packet Capture resource (PacketCapture) represents captured live traffic for debugging microservices and application interaction inside a Kubernetes cluster.  
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/workloads/packet-capture.yaml
+```
+Confirm this is now running:  
+```  
+kubectl get packetcapture -n storefront
+```
+Once the capture is created, you can delete the collector:
+```
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/workloads/packet-capture.yaml
+```
+#### Move the packet capture
+```
+kubectl calico captured-packets copy storefront-capture -n storefront
+``` 
+Check that the packet captures are now created:
+```
+ls *pcap
+```
 
 ```
-kubectl apply -f
-```
-
+tshark -r CAPTURE.pcap -2 -R dns
+``` 
+  
+  
+  
 ## Scaling-down the cluster
   
 Scale deployment down to '0' replicas to avoid scaling conflicts:
