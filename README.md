@@ -296,6 +296,8 @@ Check that the packet captures are now created:
 ls *pcap
 ```
 #### Install TSHARK and troubleshoot per pod 
+Use Yum To Search For The Package That Installs Tshark:</br>
+https://www.question-defense.com/2010/03/07/install-tshark-on-centos-linux-using-the-yum-package-manager
 ```  
 sudo yum install wireshark
 ```  
@@ -312,7 +314,30 @@ Check that there are no packet captures in this directory
 ```
 ls *pcap
 ```
-  
+
+## Wireguard In-Transit Encryption:
+
+To begin, you will need a Kubernetes cluster with WireGuard installed on the host operating system.</br>
+https://www.tigera.io/blog/introducing-wireguard-encryption-with-calico/
+```
+sudo yum install kernel-devel-`uname -r` -y
+sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
+sudo curl -o /etc/yum.repos.d/jdoss-wireguard-epel-7.repo https://copr.fedorainfracloud.org/coprs/jdoss/wireguard/repo/epel-7/jdoss-wireguard-epel-7.repo
+sudo yum install wireguard-dkms wireguard-tools -y
+```
+Enable WireGuard encryption across all the nodes using the following command:
+```
+kubectl patch felixconfiguration default --type='merge' -p '{"spec":{"wireguardEnabled":true}}'
+```
+To verify that the nodes are configured for WireGuard encryption:
+```
+kubectl get node ip-192-168-30-158.eu-west-1.compute.internal -o yaml | grep Wireguard
+```
+Show how this has applied to traffic in-transit:
+```
+sudo wg show
+```
+
 ## Scaling-down the cluster
   
 Scale deployment down to '0' replicas to avoid scaling conflicts:
