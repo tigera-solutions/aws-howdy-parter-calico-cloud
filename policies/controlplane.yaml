@@ -1,0 +1,47 @@
+apiVersion: projectcalico.org/v3
+kind: StagedGlobalNetworkPolicy
+metadata:
+  name: aws-nodes.controlplane
+spec:
+  tier: aws-nodes
+  order: 100
+  selector: has(kubernetes-host) && environment == 'master'
+  namespaceSelector: ''
+  serviceAccountSelector: ''
+  ingress:
+    - action: Deny
+      protocol: TCP
+      source: {}
+      destination:
+        ports:
+          - '80'
+    - action: Allow
+      protocol: UDP
+      source: {}
+      destination:
+        ports:
+          - '8472'
+  egress:
+    - action: Allow
+      protocol: TCP
+      source: {}
+      destination:
+        ports:
+          - '443'
+          - '2379'
+          - '2380'
+          - '9099'
+          - '10250'
+          - '10254'
+    - action: Allow
+      protocol: UDP
+      source: {}
+      destination:
+        ports:
+          - '8472'
+  doNotTrack: false
+  applyOnForward: false
+  preDNAT: false
+  types:
+    - Ingress
+    - Egress
