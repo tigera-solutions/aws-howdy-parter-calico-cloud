@@ -1,0 +1,50 @@
+apiVersion: projectcalico.org/v3
+kind: StagedGlobalNetworkPolicy
+metadata:
+  name: aws-nodes.worker-nodes
+spec:
+  tier: aws-nodes
+  order: 100
+  selector: (has(kubernetes-host)&&environment == "worker")
+  namespaceSelector: ''
+  serviceAccountSelector: ''
+  ingress:
+    - action: Allow
+      protocol: TCP
+      source: {}
+      destination:
+        notPorts:
+          - '443'
+    - action: Deny
+      protocol: TCP
+      source: {}
+      destination:
+        ports:
+          - '443'
+    - action: Pass
+      notProtocol: TCP
+      source: {}
+      destination: {}
+  egress:
+    - action: Allow
+      protocol: TCP
+      source: {}
+      destination:
+        notPorts:
+          - '443'
+    - action: Deny
+      protocol: TCP
+      source: {}
+      destination:
+        ports:
+          - '443'
+    - action: Pass
+      notProtocol: TCP
+      source: {}
+      destination: {}
+  doNotTrack: false
+  applyOnForward: false
+  preDNAT: false
+  types:
+    - Ingress
+    - Egress
