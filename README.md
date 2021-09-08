@@ -218,6 +218,21 @@ https://docs.tigera.io/compliance/compliance-reports/compliance-managed-cloud#en
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/policy-audit.yaml  
 ```
 
+## Securing EKS hosts:
+
+Automatically register your nodes as Host Endpoints (HEPS). To enable automatic host endpoints, edit the default KubeControllersConfiguration instance, and set spec.controllers.node.hostEndpoint.autoCreate to true:
+
+```
+kubectl patch kubecontrollersconfiguration default --patch='{"spec": {"controllers": {"node": {"hostEndpoint": {"autoCreate": "Enabled"}}}}}'
+```
+
+Add the label kubernetes-host to all nodes and their host endpoints:
+```
+kubectl label nodes --all kubernetes-host=  
+```
+
+  
+
 ## Scaling-down the cluster
   
 Scale deployment down to '0' replicas to avoid scaling conflicts:
