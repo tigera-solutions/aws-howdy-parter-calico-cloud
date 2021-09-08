@@ -260,7 +260,8 @@ Check that there are no packet captures in this directory
 ```
 ls *pcap
 ```
-A Packet Capture resource (PacketCapture) represents captured live traffic for debugging microservices and application interaction inside a Kubernetes cluster.  
+A Packet Capture resource (PacketCapture) represents captured live traffic for debugging microservices and application interaction inside a Kubernetes cluster.</br>
+https://docs.tigera.io/reference/calicoctl/captured-packets  
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/workloads/packet-capture.yaml
 ```
@@ -273,7 +274,8 @@ Once the capture is created, you can delete the collector:
 kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/workloads/packet-capture.yaml
 ```
 #### Install a Calicoctl plugin  
-Use the following command to download the calicoctl binary.
+Use the following command to download the calicoctl binary:</br>
+https://docs.tigera.io/maintenance/clis/calicoctl/install#install-calicoctl-as-a-kubectl-plugin-on-a-single-host
 ``` 
 curl -o kubectl-calico -O -L  https://docs.tigera.io/download/binaries/v3.7.0/calicoctl
 ``` 
@@ -303,7 +305,13 @@ tshark -r frontend-75875cb97c-2fkt2_enib222096b242.pcap -2 -R dns | grep microse
 ```  
 tshark -r frontend-75875cb97c-2fkt2_enib222096b242.pcap -2 -R dns | grep microservice2
 ```  
-  
+
+## Dynamic Packet Capture:
+
+Check that there are no packet captures in this directory  
+```
+ls *pcap
+```
   
 ## Scaling-down the cluster
   
