@@ -244,6 +244,15 @@ kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-pa
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/worker.yaml
 ```
+
+#### Label based on node purpose
+To select a specific set of host endpoints (and their corresponding Kubernetes nodes), use a policy selector that selects a label unique to that set of host endpoints. For example, if we want to add the label environment=dev to nodes named node1 and node2:
+
+```
+kubectl label node ip-10-0-1-165 environment=master
+kubectl label node ip-10-0-1-167 environment=worker
+kubectl label node ip-10-0-1-227 environment=etcd
+```
 ## Scaling-down the cluster
   
 Scale deployment down to '0' replicas to avoid scaling conflicts:
