@@ -5,40 +5,43 @@ metadata:
 spec:
   tier: aws-nodes
   order: 100
-  selector: has(kubernetes-host) && environment == 'master'
+  selector: (has(kubernetes-host)&&environment == "master")
   namespaceSelector: ''
   serviceAccountSelector: ''
   ingress:
+    - action: Allow
+      protocol: TCP
+      source: {}
+      destination:
+        notPorts:
+          - '443'
     - action: Deny
       protocol: TCP
       source: {}
       destination:
         ports:
-          - '80'
-    - action: Allow
-      protocol: UDP
+          - '443'
+    - action: Pass
+      notProtocol: TCP
       source: {}
-      destination:
-        ports:
-          - '8472'
+      destination: {}
   egress:
     - action: Allow
       protocol: TCP
       source: {}
       destination:
-        ports:
+        notPorts:
           - '443'
-          - '2379'
-          - '2380'
-          - '9099'
-          - '10250'
-          - '10254'
-    - action: Allow
-      protocol: UDP
+    - action: Deny
+      protocol: TCP
       source: {}
       destination:
         ports:
-          - '8472'
+          - '443'
+    - action: Pass
+      notProtocol: TCP
+      source: {}
+      destination: {}
   doNotTrack: false
   applyOnForward: false
   preDNAT: false
