@@ -283,11 +283,11 @@ chmod +x kubectl-calico
 ```
 Verify the plugin works:
 ``` 
-kubectl calico -h
+./kubectl-calico -h
 ``` 
 #### Move the packet capture
 ```
-kubectl calico captured-packets copy storefront-capture -n storefront
+./kubectl-calico captured-packets copy storefront-capture -n storefront
 ``` 
 Check that the packet captures are now created:
 ```
