@@ -275,7 +275,7 @@ kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-p
 #### Install a Calicoctl plugin  
 Use the following command to download the calicoctl binary.
 ``` 
-curl -o kubectl-calico -O -L  https://docs.tigera.io/download/binaries/v3.9.0/calicoctl
+curl -o kubectl-calico -O -L  https://docs.tigera.io/download/binaries/v3.7.0/calicoctl
 ``` 
 Set the file to be executable.
 ``` 
