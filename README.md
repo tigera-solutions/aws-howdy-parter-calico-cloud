@@ -308,11 +308,16 @@ tshark -r frontend-75875cb97c-2fkt2_enib222096b242.pcap -2 -R dns | grep microse
 tshark -r frontend-75875cb97c-2fkt2_enib222096b242.pcap -2 -R dns | grep microservice2
 ```  
 
-## Dynamic Packet Capture:
+## Direct Outbound Traffic through Egress Gateways
 
-Check that there are no packet captures in this directory  
+In the default FelixConfiguration, set the egressIPSupport field to EnabledPerNamespace  
 ```
-ls *pcap
+kubectl patch felixconfiguration.p default --type='merge' -p \
+    '{"spec":{"egressIPSupport":"EnabledPerNamespace"}}'
+```
+
+```
+kubectl apply -f ippool.yaml
 ```
 
 ## Wireguard In-Transit Encryption:
