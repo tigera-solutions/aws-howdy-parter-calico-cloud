@@ -293,8 +293,10 @@ Check that the packet captures are now created:
 ```
 ls *pcap
 ```
-
+```  
+sudo yum install wireshark
 ```
+```  
 tshark -r frontend-75875cb97c-2fkt2_enib222096b242.pcap -2 -R dns
 ``` 
   
