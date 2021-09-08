@@ -352,3 +352,13 @@ Scale the Node Group ID to 0 nodes (which should stop K8 activity)
 ```
 eksctl scale nodegroup --cluster aws-howdy-partner --name ng-8087b677 --nodes 0
 ```
+
+## Miscellaneous commands:
+Check that your licensing was applied:
+```
+kubectl get LicenseKeys.crd.projectcalico.org
+```
+Delete all broken pods in namespace	
+```
+kubectl delete --all pods --namespace=tigera-elasticsearch
+```
