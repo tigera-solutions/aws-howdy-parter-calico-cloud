@@ -21,17 +21,23 @@ eksctl create cluster  --name aws-howdy-partner  --with-oidc  --without-nodegrou
 ```
 ## Make a cluster EU-Compatible:
 If necessary, replace the region code with Region your cluster's in
+
 ```
 sed -i.bak -e 's/us-west-2/eu-west-1/' aws-k8s-cni.yaml
 ```
-Replace <account> with Account from the EKS addon
+
+Replace account with Account from the EKS addon
+
 ```
 sed -i.bak -e 's/602401143452/602401143452/' aws-k8s-cni.yaml
 ```
+
 Address for Region that your cluster is in:
+
 ```
 kubectl apply -f aws-k8s-cni.yaml
 ```
+
 ## Create a node group for the cluster
 Verify VPC Networking and CNI plugin is used. Confirm the aws-node pod exists on each node
 ```
@@ -113,24 +119,34 @@ Verify the GlobalNetworkSet is configured correctly:
 ``` 
 kubectl get globalnetworksets threatfeed.feodo-tracker -o yaml
 ``` 
+
 Applies to anything that IS NOT listed with the namespace selector = 'acme' 
+
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/threatfeed/block-feodo.yaml
 ```
+
 Create a Default-Deny in the 'Default' namespace:
+
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/default-deny.yaml
 ```
+
 ## Anonymization Attacks:  
 Create the threat feed for EJR-VPN: 
+
 ``` 
 kubectl apply -f https://docs.tigera.io/manifests/threatdef/ejr-vpn.yaml
 ```
+
 Create the threat feed for Tor Bulk Exit Nodes: 
+
 ``` 
 kubectl apply -f https://docs.tigera.io/manifests/threatdef/tor-exit-feed.yaml
 ```
+
 Additionally, feeds can be checked using following command:
+
 ``` 
 kubectl get globalthreatfeeds 
 ```
@@ -139,22 +155,26 @@ kubectl get globalthreatfeeds
 ## Configuring Honeypods
 
 Create the Tigera-Internal namespace and alerts for the honeypod services:
+
 ```
 kubectl apply -f https://docs.tigera.io/manifests/threatdef/honeypod/common.yaml
 ```
 
 Expose a vulnerable SQL service that contains an empty database with easy access.<br/>
 The pod can be discovered via ClusterIP or DNS lookup:
+
 ```
 kubectl apply -f https://docs.tigera.io/manifests/threatdef/honeypod/vuln-svc.yaml 
 ```
 
-Verify the deployment - ensure that honeypods are running within the 'tigera-internal' namespace:
+Verify the deployment - ensure that honeypods are running within the tigera-internal namespace:
+
 ```
 kubectl get pods -n tigera-internal -o wide
 ```
 
 And verify that global alerts are set for honeypods:
+
 ```
 kubectl get globalalerts
 ```
@@ -167,50 +187,67 @@ kubectl get globalalerts
 ```
 kubectl apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/master/release/kubernetes-manifests.yaml
 ```  
+
 We also offer a test application for Kubernetes-specific network policies:
+
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/workloads/test.yaml
 ```
 
 #### Block the test application
+
 Deny the frontend pod traffic:
+
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/frontend-deny.yaml
 ```
+
 Allow the frontend pod traffic:
+
 ```
 kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/frontend-deny.yaml
 ```
 
 #### Introduce segmented policies
 Deploy policies for the Boutique application:
+  
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/boutique-policies.yaml
 ``` 
 Deploy policies for the K8 test application:
+  
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/test-app.yaml
 ```
+  
 ## Alerting
+  
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/alerting/networksets.yaml
 ```
+  
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/alerting/dns-access.yaml
 ```
+  
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/alerting/lateral-access.yaml
 ``` 
+  
 ## Compliance Reporting
+  
 ```   
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/cis-report.yaml
 ```
+  
 ```  
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/inventory.yaml
 ```
+  
 ``` 
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/network-access.yaml  
 ```
+  
 Run the below .YAML manifest if you had configured audit logs for your EKS cluster:<br/>
 https://docs.tigera.io/compliance/compliance-reports/compliance-managed-cloud#enable-audit-logs-in-eks
 
@@ -308,17 +345,9 @@ tshark -r frontend-75875cb97c-2fkt2_enib222096b242.pcap -2 -R dns | grep microse
 tshark -r frontend-75875cb97c-2fkt2_enib222096b242.pcap -2 -R dns | grep microservice2
 ```  
 
-## Direct Outbound Traffic through Egress Gateways
 
-In the default FelixConfiguration, set the egressIPSupport field to EnabledPerNamespace  
-```
-kubectl patch felixconfiguration.p default --type='merge' -p \
-    '{"spec":{"egressIPSupport":"EnabledPerNamespace"}}'
-```
 
-```
-kubectl apply -f ippool.yaml
-```
+
 
 ## Wireguard In-Transit Encryption:
 
