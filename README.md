@@ -272,6 +272,19 @@ Once the capture is created, you can delete the collector:
 ```
 kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/workloads/packet-capture.yaml
 ```
+#### Install a Calicoctl plugin  
+Use the following command to download the calicoctl binary.
+``` 
+curl -o kubectl-calico -O -L  https://docs.tigera.io/download/binaries/v3.9.0/calicoctl
+``` 
+Set the file to be executable.
+``` 
+chmod +x kubectl-calico
+```
+Verify the plugin works:
+``` 
+kubectl calico -h
+``` 
 #### Move the packet capture
 ```
 kubectl calico captured-packets copy storefront-capture -n storefront
