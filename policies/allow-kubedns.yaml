@@ -1,10 +1,10 @@
 apiVersion: projectcalico.org/v3
 kind: GlobalNetworkPolicy
 metadata:
-  name: security.allow-kubedns
+  name: tigera-security.allow-kubedns
 spec:
   # requires security tier to exist
-  tier: security
+  tier: tigera-security
   order: 2000
   selector: all()
   types:
