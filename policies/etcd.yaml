@@ -1,9 +1,9 @@
 apiVersion: projectcalico.org/v3
 kind: StagedGlobalNetworkPolicy
 metadata:
-  name: aws-nodes.etcd-nodes
+  name: host-endpoints.etcd-nodes
 spec:
-  tier: aws-nodes
+  tier: host-endpoints
   order: 0
   selector: (has(kubernetes-host)&&environment == "etcd")
   namespaceSelector: ''
