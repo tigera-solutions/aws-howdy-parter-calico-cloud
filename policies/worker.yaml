@@ -1,11 +1,11 @@
 apiVersion: projectcalico.org/v3
 kind: StagedGlobalNetworkPolicy
 metadata:
-  name: host-endpoints.worker-nodes
+  name: host-endpoints.worker
 spec:
   tier: host-endpoints
   order: 100
-  selector: (has(kubernetes-host)&&environment == "worker")
+  selector: (has(kubernetes-host)&&env == "worker")
   namespaceSelector: ''
   serviceAccountSelector: ''
   ingress:
