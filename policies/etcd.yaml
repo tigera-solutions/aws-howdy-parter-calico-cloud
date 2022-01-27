@@ -1,45 +1,19 @@
 apiVersion: projectcalico.org/v3
-kind: StagedGlobalNetworkPolicy
+kind: GlobalNetworkPolicy
 metadata:
   name: host-endpoints.etcd
 spec:
   tier: host-endpoints
   order: 0
-  selector: (has(kubernetes-host)&&env == "etcd")
+  selector: env == "etcd"
   namespaceSelector: ''
   serviceAccountSelector: ''
   ingress:
     - action: Allow
-      protocol: TCP
-      source: {}
-      destination:
-        notPorts:
-          - '443'
-    - action: Deny
-      protocol: TCP
-      source: {}
-      destination:
-        ports:
-          - '443'
-    - action: Pass
-      notProtocol: TCP
       source: {}
       destination: {}
   egress:
     - action: Allow
-      protocol: TCP
-      source: {}
-      destination:
-        notPorts:
-          - '443'
-    - action: Deny
-      protocol: TCP
-      source: {}
-      destination:
-        ports:
-          - '443'
-    - action: Pass
-      notProtocol: TCP
       source: {}
       destination: {}
   doNotTrack: false
